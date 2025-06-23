@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback</title>
+    <link rel="stylesheet" type="text/css" href="style3.css">
+    <script>
+        function submitFeedback() {
+            // Retrieve the rating value
+            var rating = document.querySelector('input[name="rating"]:checked').value;
+
+            // Retrieve the feedback value
+            var feedback = document.getElementById('feedback').value;
+
+            function sendFeed() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const inputID = urlParams.get('id');
+                console.log(inputID);
+
+                fetch(serverURL+'/Feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ inputID: inputID, rating: rating, feedback: feedback })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                });
+            }
+
+            sendFeed(); // Corrected the function call
+
+            var thankYouMessage = document.getElementById('thankYouMessage');
+            thankYouMessage.style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <form id="feedbackForm">
+        <h2>Rating</h2>
+        <div>
+            <label for="rating">Rating:</label>
+            <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="5 stars">5 stars</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">4 stars</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">3 stars</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">2 stars</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">1 star</label>
+            <br>
+            <br>
+        </div>
+        <div>
+            <label for="feedback">Additional Feedback:</label>
+            <br>
+            <textarea id="feedback" name="feedback" rows="4" cols="50"></textarea>
+        </div>
+        <input type="button" value="Submit" onclick="submitFeedback()"> <!-- Changed type to "button" to prevent form submission -->
+    </form>
+    <div class="container">
+        <div class="box" id="thankYouMessage" style="display: none;">
+            <p>Thank you for your Review.</p>
+        </div>
+    </div>
+</body>
+</html>

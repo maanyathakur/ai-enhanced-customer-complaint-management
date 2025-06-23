@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase History</title>
+    <link rel="stylesheet" type="text/css" href="style2.css">
+    <script>
+        let products;
+        var serverURL = 'http://172.20.25.109:5000'; 
+        function checkID() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const inputID = urlParams.get('id');
+            console.log(inputID);
+            fetch(serverURL+'/userproducts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ inputID: inputID })
+            })
+            .then(response => response.json())
+            .then(data => {
+                products = data;
+                populateProductTable();
+            });
+        }
+
+        function populateProductTable() {
+    const table = document.getElementById("productTable");
+
+    for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        const row = table.insertRow(-1);
+        const serialNumberCell = row.insertCell(0);
+        const nameCell = row.insertCell(1);
+        const priceCell = row.insertCell(2);
+        const idCell = row.insertCell(3);
+        const complaintCell = row.insertCell(4);
+        serialNumberCell.innerHTML = product.serialNumber;
+        nameCell.innerHTML = product.name;
+        priceCell.innerHTML = product.price;
+        idCell.innerHTML = product.pid;
+
+        const complaintButton = document.createElement("button");
+        complaintButton.innerHTML = "Complaint";
+
+        if (product.complaint) {
+            complaintButton.onclick = function() {
+                window.location.href = "status.html?id=" + product.pid; // Redirect to webpage1 if complaint has been lodged
+            };
+        } else {
+            complaintButton.onclick = function() {
+                window.location.href = "complaint.html?id=" + product.pid; // Redirect to webpage2 if complaint has not been lodged
+            };
+        }
+        complaintCell.appendChild(complaintButton);
+    }
+}
+
+        window.onload = checkID; // Assign the function to onload event
+    </script>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h2>Your Purchased Products</h2>
+      <table id="productTable">
+          <tr>
+              <th>S.no.</th>
+              <th>Product Name</th>
+              <th>Price (Rs)</th>
+              <th>Purchase ID</th>
+              <th>Complaint</th>
+          </tr>
+          <!-- Table rows and data will be populated here -->
+      </table>
+    </div>
+  </div>
+</body>
+</html>
