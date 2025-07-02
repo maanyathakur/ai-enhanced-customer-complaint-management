@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Complaints</title>
+    <link rel="stylesheet" type="text/css" href="style2.css">
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <h2>My Complaints</h2>
+            <table id="complaints-table">
+                <tr>
+                    <th>S.no</th>
+                    <th>Purchase ID</th>
+                    <th>Complaint ID</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Severity</th>
+                    <th>Feedback</th>
+                </tr>
+                <!-- Add more rows for each complaint -->
+            </table>
+        </div>
+    </div>
+    <script>
+        let complaints_show;
+        var serverURL = 'http://172.20.25.109:5000'; // Declare the global variable
+        function checkC() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const inputID = urlParams.get('id');
+            console.log(inputID);
+
+            fetch(serverURL + '/servicestatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ inputID: inputID })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    complaints_show = data;
+                    populateProductTable(); // Call the function to populate the table after fetching the data
+                });
+        }
+
+        function populateProductTable() {
+            const table = document.getElementById("complaints-table");
+
+            for (let i = 0; i < complaints_show.length; i++) {
+                const product = complaints_show[i];
+                const row = table.insertRow(-1);
+                const serialNumberCell = row.insertCell(0);
+                const p_idCell = row.insertCell(1);
+                const c_idCell = row.insertCell(2);
+                const desCell  = row.insertCell(3);
+                const statCell = row.insertCell(4);
+                const sevCell = row.insertCell(5);
+                const feedCell = row.insertCell(6);
+                serialNumberCell.innerHTML = complaints_show[i].serialNumber;
+                p_idCell.innerHTML = complaints_show[i].purchase_id;
+                c_idCell.innerHTML = complaints_show[i].complaint_id;
+                desCell.innerHTML = complaints_show[i]. description;
+                statCell.innerHTML = complaints_show[i].status;
+                sevCell.innerHTML = complaints_show[i].severity;
+                if (complaints_show[i].status === "Completed") {
+                  const feedbackButton = document.createElement("button");
+                  feedbackButton.innerHTML = "Feedback";
+
+                  feedbackButton.onclick = function () {
+                      window.location.href = "feedback.html?id=" + product.pid; // Pass the product ID to the complaint page
+                  };
+                  feedCell.appendChild(feedbackButton);
+              }
+            }
+        }
+        window.onload = checkC;
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,70 @@
+
+body {
+    background: radial-gradient(circle, #ffffff 10%, #b0e0e6 20%, #000000 30%);
+    background-size: 20px 20px; /* Size of the circles */
+    background-color: #000000; /* Fallback color */
+    font-family: 'Courier New', monospace;
+    color: white;
+    text-align: center;
+    background-size: 50px 50px;
+    background-position: center;
+}
+form {
+    width: auto;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid lightblue;
+    border-radius: 5px;
+    background-color: black;
+  }
+  
+  
+  /* Style for the heading */
+  h2 {
+    text-align: center;
+    color: lightblue;
+  }
+  
+  /* Style for the rating labels */
+  label {
+    margin-right: 10px;
+  }
+  
+  /* Style for the text area */
+  textarea {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: lightblue;
+    border-radius: 5px;
+    resize: vertical; /* Allow vertical resizing */
+  }
+  
+  /* Style for the submit button */
+  input[type="submit"] {
+    background-color: lightblue;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Change the submit button color on hover */
+  input[type="submit"]:hover {
+    background-color: rgb(4, 86, 113);
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .box {
+    padding: 20px;
+    border: 2px solid lightblue;
+    background-color: black;
+    text-align: center;
+    border-radius: 5px;
+  }
