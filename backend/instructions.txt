@@ -1,0 +1,36 @@
+CREATE TABLE product (
+    product_id varchar(255) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(500),
+    price DECIMAL(10, 2)
+);
+
+CREATE TABLE customer (
+    customer_id varchar(255) PRIMARY KEY,
+    phone_number VARCHAR(10) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    address varchar(255),
+    email VARCHAR(50)
+);
+
+CREATE TABLE complaint (
+    complaint_id varchar(255) PRIMARY KEY,
+    date_opened DATE NOT NULL,
+    date_closed DATE,
+    product_id varchar(255),
+    customer_id varchar(255),
+    description varchar(255),
+    severity VARCHAR(20),
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+
+CREATE TABLE service (
+    complaint_id varchar(255) PRIMARY KEY,
+    rating INT,
+    status VARCHAR(20),
+    customer_id varchar(255),
+    product_id varchar(255),
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
